@@ -9,6 +9,7 @@ const editModalElement = document.getElementById("editModal");
 const editError = document.getElementById("editError");
 const editErrorText = document.getElementById("editErrorText");
 const saveEditBtn = document.getElementById("saveEditBtn");
+const searchInput = document.getElementById("searchInput");
 
 let currentEditingTodoId = null;
 const todoRegex = /\S/;
@@ -148,8 +149,8 @@ function displayTodos() {
   // Display all tasks
   todoList.appendChild(fragment);
 
-  // Update empty state
-  toggleEmptyState();
+  // Apply current search filter
+  searchTodos();
 }
 
 displayTodos();
@@ -250,4 +251,28 @@ function completeTodo(todoId, todoElement) {
 
   // Trigger the CSS animation
   todoElement.classList.add("completed");
+}
+
+function searchTodos() {
+  // Get search value
+  const searchValue = searchInput.value.trim().toLowerCase();
+
+  // Get all displayed task elements
+  const todoItems = todoList.querySelectorAll(".todo-item");
+
+  todoItems.forEach((todoItem) => {
+    // Get task text
+    const todoText = todoItem
+      .querySelector(".todo-text")
+      .textContent.toLowerCase();
+
+    // Check if task matches search value
+    const isMatch = todoText.includes(searchValue);
+
+    // Hide or show task
+    todoItem.classList.toggle("d-none", !isMatch);
+  });
+
+  // Update empty state
+  toggleEmptyState();
 }
