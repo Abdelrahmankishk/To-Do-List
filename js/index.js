@@ -134,6 +134,10 @@ function displayTodos() {
     doneIcon.className = "fa-solid fa-check";
     doneBtn.appendChild(doneIcon);
 
+    doneBtn.addEventListener("click", function () {
+      completeTodo(todo.id, todoItem);
+    });
+
     // Assemble the task
     actions.append(editBtn, doneBtn);
     todoItem.append(marker, todoText, actions);
@@ -208,4 +212,42 @@ function validateEditInput() {
   }
 
   return isValid;
+}
+
+function completeTodo(todoId, todoElement) {
+  // Prevent completing the same task more than once
+  if (todoElement.classList.contains("completed")) return;
+
+  // Find the selected task in the array
+  const todoIndex = todos.findIndex((todo) => todo.id === todoId);
+
+  if (todoIndex === -1) return;
+
+  // Remove the task from the array
+  todos.splice(todoIndex, 1);
+
+  // Update Local Storage immediately
+  saveTodos();
+
+  // Listen for the completion animation
+  function handleFadeAway(event) {
+    // Ignore animations coming from child elements
+    if (event.target !== todoElement || event.animationName !== "fadeAway") {
+      return;
+    }
+
+    // Remove the event listener
+    todoElement.removeEventListener("animationend", handleFadeAway);
+
+    // Remove the HTML element after animation
+    todoElement.remove();
+
+    // Update empty state
+    toggleEmptyState();
+  }
+
+  todoElement.addEventListener("animationend", handleFadeAway);
+
+  // Trigger the CSS animation
+  todoElement.classList.add("completed");
 }
