@@ -7,6 +7,8 @@ const addBtn = document.getElementById("addBtn");
 const editInput = document.getElementById("editInput");
 const editModalElement = document.getElementById("editModal");
 const editError = document.getElementById("editError");
+const editErrorText = document.getElementById("editErrorText");
+const saveEditBtn = document.getElementById("saveEditBtn");
 
 let currentEditingTodoId = null;
 const todoRegex = /\S/;
@@ -147,3 +149,63 @@ function displayTodos() {
 }
 
 displayTodos();
+
+function saveEdit() {
+  // Validate edited input
+  if (!validateEditInput()) return;
+
+  // Make sure a task is selected
+  if (currentEditingTodoId === null) return;
+
+  // Find the selected task
+  const selectedTodo = todos.find((todo) => todo.id === currentEditingTodoId);
+
+  if (!selectedTodo) return;
+
+  // Update task text
+  selectedTodo.text = editInput.value.trim();
+
+  // Save changes to Local Storage
+  saveTodos();
+
+  // Refresh the displayed tasks
+  displayTodos();
+
+  // Close the modal
+  bootstrap.Modal.getOrCreateInstance(editModalElement).hide();
+}
+
+// Validate edit input while typing
+editInput.addEventListener("input", validateEditInput);
+
+// Save edited task
+saveEditBtn.addEventListener("click", saveEdit);
+
+editModalElement.addEventListener("hidden.bs.modal", function () {
+  currentEditingTodoId = null;
+
+  editInput.value = "";
+  editInput.classList.remove("is-invalid");
+  editInput.removeAttribute("aria-invalid");
+
+  editError.classList.add("d-none");
+});
+
+function validateEditInput() {
+  const isValid = todoRegex.test(editInput.value);
+
+  // Update input styling
+  editInput.classList.toggle("is-invalid", !isValid);
+
+  // Update validation message
+  editError.classList.toggle("d-none", isValid);
+
+  if (!isValid) {
+    editErrorText.textContent = "Please enter a valid to-do.";
+    editInput.setAttribute("aria-invalid", "true");
+  } else {
+    editInput.removeAttribute("aria-invalid");
+  }
+
+  return isValid;
+}
