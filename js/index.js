@@ -262,6 +262,8 @@ function searchTodos() {
 
   todoItems.forEach((todoItem) => {
     // Get task text
+    // Don't filter tasks that are currently completing
+    if (todoItem.classList.contains("completed")) return;
     const todoText = todoItem
       .querySelector(".todo-text")
       .textContent.toLowerCase();
