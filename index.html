@@ -42,6 +42,7 @@
               <label for="todoInput" class="visually-hidden">New to-do</label>
               <i class="fa-solid fa-pencil field-icon"></i>
               <input
+                oninput="validateTodoInput()"
                 type="text"
                 id="todoInput"
                 class="form-control"
@@ -72,7 +73,7 @@
           </div>
 
           <!-- Validation message (hidden by default, remove "d-none" to show it) -->
-          <div id="todoError" class="validation-msg d-none" role="alert">
+          <div id="todoErrorText" class="validation-msg d-none" role="alert">
             <i class="fa-solid fa-circle-exclamation"></i>
             <span id="todoErrorText">Please enter a valid to-do.</span>
           </div>
@@ -219,9 +220,9 @@
                 autocomplete="off"
               />
             </div>
-            <div id="todoError" class="validation-msg d-none" role="alert">
+            <div id="editError" class="validation-msg d-none" role="alert">
               <i class="fa-solid fa-circle-exclamation"></i>
-              <span id="todoErrorText">Please enter a valid to-do.</span>
+              <span id="editErrorText">Please enter a valid to-do.</span>
             </div>
           </div>
           <div class="modal-footer">
