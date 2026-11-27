@@ -28,37 +28,102 @@ function validateTodoInput() {
 function toggleEmptyState() {
   const visibleTodos = todoList.querySelectorAll(".todo-item:not(.d-none)");
 
-  emptyState.classList.toggle("d-none", todos.length > 0);
+  emptyState.classList.toggle("d-none", visibleTodos.length > 0);
 }
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function addTodo() {
-  // Validate input
   if (!validateTodoInput()) return;
 
-  // Create new todo object
   const newTodo = {
     id: Date.now(),
     text: todoInput.value.trim(),
   };
 
-  // Add todo to the array
   todos.push(newTodo);
-
-  // Save updated array
   saveTodos();
 
-  // Reset input
+  displayTodos();
+
   todoInput.value = "";
   todoError.classList.add("d-none");
   todoInput.classList.remove("is-invalid");
 }
-addBtn.addEventListener("click", addTodo);
 
 todoInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     addTodo();
   }
 });
+
+function displayTodos() {
+  // Clear existing tasks
+  todoList.innerHTML = "";
+
+  // Create a fragment to improve DOM performance
+  const fragment = document.createDocumentFragment();
+
+  todos.forEach((todo) => {
+    // Create the list item
+    const todoItem = document.createElement("li");
+    todoItem.className = "todo-item";
+    todoItem.dataset.id = todo.id;
+
+    // Todo marker
+    const marker = document.createElement("span");
+    marker.className = "todo-marker";
+
+    const markerIcon = document.createElement("i");
+    markerIcon.className = "fa-solid fa-check";
+    marker.appendChild(markerIcon);
+
+    // Todo text
+    const todoText = document.createElement("p");
+    todoText.className = "todo-text";
+    todoText.textContent = todo.text;
+
+    // Actions container
+    const actions = document.createElement("div");
+    actions.className = "todo-actions";
+
+    // Edit button
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "btn-action btn-edit";
+    editBtn.setAttribute("aria-label", "Edit to-do");
+    editBtn.title = "Edit";
+    editBtn.dataset.bsToggle = "modal";
+    editBtn.dataset.bsTarget = "#editModal";
+
+    const editIcon = document.createElement("i");
+    editIcon.className = "fa-solid fa-pen";
+    editBtn.appendChild(editIcon);
+
+    // Complete button
+    const doneBtn = document.createElement("button");
+    doneBtn.type = "button";
+    doneBtn.className = "btn-action btn-done";
+    doneBtn.setAttribute("aria-label", "Mark as completed");
+    doneBtn.title = "Mark as completed";
+
+    const doneIcon = document.createElement("i");
+    doneIcon.className = "fa-solid fa-check";
+    doneBtn.appendChild(doneIcon);
+
+    // Assemble the task
+    actions.append(editBtn, doneBtn);
+    todoItem.append(marker, todoText, actions);
+
+    fragment.appendChild(todoItem);
+  });
+
+  // Display all tasks
+  todoList.appendChild(fragment);
+
+  // Update empty state
+  toggleEmptyState();
+}
+
+displayTodos();
