@@ -1,6 +1,8 @@
 const todoInput = document.getElementById("todoInput");
 const todoError = document.getElementById("todoError");
 const todoErrorText = document.getElementById("todoErrorText");
+const todoList = document.getElementById("todoList");
+const emptyState = document.getElementById("emptyState");
 
 const todoRegex = /\S/;
 
@@ -21,4 +23,9 @@ function validateTodoInput() {
   }
 
   return isValid;
+}
+function toggleEmptyState() {
+  const visibleTodos = todoList.querySelectorAll(".todo-item:not(.d-none)");
+
+  emptyState.classList.toggle("d-none", visibleTodos.length > 0);
 }
