@@ -4,6 +4,9 @@ const todoErrorText = document.getElementById("todoErrorText");
 const todoList = document.getElementById("todoList");
 const emptyState = document.getElementById("emptyState");
 const addBtn = document.getElementById("addBtn");
+const editInput = document.getElementById("editInput");
+
+let currentEditingTodoId = null;
 const todoRegex = /\S/;
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
@@ -127,3 +130,27 @@ function displayTodos() {
 }
 
 displayTodos();
+
+todoList.addEventListener("click", function (e) {
+  // Check if the clicked element is an edit button
+  const editBtn = e.target.closest(".btn-edit");
+
+  if (!editBtn) return;
+
+  // Get the selected task element
+  const todoItem = editBtn.closest(".todo-item");
+
+  // Get its ID
+  const todoId = Number(todoItem.dataset.id);
+
+  // Find the corresponding object
+  const selectedTodo = todos.find((todo) => todo.id === todoId);
+
+  if (!selectedTodo) return;
+
+  // Store the selected task ID
+  currentEditingTodoId = selectedTodo.id;
+
+  // Load the existing task text into the modal
+  editInput.value = selectedTodo.text;
+});
