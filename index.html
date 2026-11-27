@@ -3,15 +3,263 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To Do List</title>
+    <title>Done &amp; Dusted | To-Do List</title>
     <!--? Font Awesome  -->
     <link rel="stylesheet" href="css/all.min.css" />
     <!--! Bootstap 5.3.5  -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <!--* styles.css -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!-- ===== Hero ===== -->
+    <header class="hero">
+      <div class="container position-relative">
+        <div class="hero-logo"><i class="fa-solid fa-check-double"></i></div>
+        <h1 class="hero-title">Done &amp; Dusted</h1>
+        <p class="hero-sub">Write it down. Tick it off. Watch it disappear.</p>
+      </div>
+
+      <svg
+        class="hero-wave"
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0,40 C180,90 360,0 600,30 C840,60 1060,95 1250,50 C1340,28 1400,24 1440,34 L1440,80 L0,80 Z"
+        ></path>
+      </svg>
+    </header>
+
+    <!-- ===== Planner ===== -->
+    <main class="page">
+      <div class="container">
+        <section class="planner">
+          <!-- Add a to-do -->
+          <div class="add-row">
+            <div class="field field-add">
+              <label for="todoInput" class="visually-hidden">New to-do</label>
+              <i class="fa-solid fa-pencil field-icon"></i>
+              <input
+                type="text"
+                id="todoInput"
+                class="form-control"
+                placeholder="What do you need to do?"
+                autocomplete="off"
+              />
+            </div>
+            <button
+              type="button"
+              id="addBtn"
+              class="btn-pop"
+              aria-label="Add to-do"
+            >
+              <i class="fa-solid fa-plus"></i
+              ><span class="d-none d-sm-inline">Add</span>
+            </button>
+            <!-- Hidden by default, remove "d-none" to show it -->
+            <button
+              type="button"
+              id="updateBtn"
+              class="btn-pop btn-update d-none"
+              aria-label="Update to-do"
+            >
+              <i class="fa-solid fa-arrows-rotate"></i
+              ><span class="d-none d-sm-inline">Update</span>
+            </button>
+          </div>
+
+          <!-- Validation message (hidden by default, remove "d-none" to show it) -->
+          <div id="todoError" class="validation-msg d-none" role="alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="todoErrorText">Please enter a valid to-do.</span>
+          </div>
+
+          <!-- List heading + search -->
+          <div class="list-bar">
+            <h2 class="sticker">
+              <i class="fa-solid fa-list-check"></i>My to-dos
+            </h2>
+            <div class="field field-search">
+              <label for="searchInput" class="visually-hidden"
+                >Search to-dos</label
+              >
+              <i class="fa-solid fa-magnifying-glass field-icon"></i>
+              <input
+                type="search"
+                id="searchInput"
+                class="form-control"
+                placeholder="Search to-dos"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- To-do list (sample items: replace with the items your JS creates) -->
+          <ul id="todoList" class="todo-list list-unstyled">
+            <li class="todo-item">
+              <span class="todo-marker"><i class="fa-solid fa-check"></i></span>
+              <p class="todo-text">Drink a glass of water</p>
+              <div class="todo-actions">
+                <button
+                  type="button"
+                  class="btn-action btn-edit"
+                  aria-label="Edit to-do"
+                  title="Edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn-action btn-done"
+                  aria-label="Mark as completed"
+                  title="Mark as completed"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="todo-item">
+              <span class="todo-marker"><i class="fa-solid fa-check"></i></span>
+              <p class="todo-text">Finish the project README</p>
+              <div class="todo-actions">
+                <button
+                  type="button"
+                  class="btn-action btn-edit"
+                  aria-label="Edit to-do"
+                  title="Edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn-action btn-done"
+                  aria-label="Mark as completed"
+                  title="Mark as completed"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="todo-item">
+              <span class="todo-marker"><i class="fa-solid fa-check"></i></span>
+              <p class="todo-text">Call mom this evening</p>
+              <div class="todo-actions">
+                <button
+                  type="button"
+                  class="btn-action btn-edit"
+                  aria-label="Edit to-do"
+                  title="Edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn-action btn-done"
+                  aria-label="Mark as completed"
+                  title="Mark as completed"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </li>
+
+            <li class="todo-item">
+              <span class="todo-marker"><i class="fa-solid fa-check"></i></span>
+              <p class="todo-text">Go for a 20-minute walk</p>
+              <div class="todo-actions">
+                <button
+                  type="button"
+                  class="btn-action btn-edit"
+                  aria-label="Edit to-do"
+                  title="Edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn-action btn-done"
+                  aria-label="Mark as completed"
+                  title="Mark as completed"
+                >
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Empty state (hidden by default, remove "d-none" to show it) -->
+          <div id="emptyState" class="empty-state d-none">
+            <div class="empty-icon"><i class="fa-solid fa-mug-hot"></i></div>
+            <h3>No to-dos to show</h3>
+            <p>Add a new to-do above, or try a different search.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ===== Edit modal ===== -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="editModalLabel">
+              <i class="fa-solid fa-pen-nib me-2"></i>Edit to-do
+            </h2>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="field field-add">
+              <label for="editInput" class="visually-hidden"
+                >Edit to-do text</label
+              >
+              <i class="fa-solid fa-pencil field-icon"></i>
+              <input
+                type="text"
+                id="editInput"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+            <div id="todoError" class="validation-msg d-none" role="alert">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span id="todoErrorText">Please enter a valid to-do.</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-ghost" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button type="button" id="saveEditBtn" class="btn-pop">
+              <i class="fa-solid fa-floppy-disk"></i>Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/index.js"></script>
   </body>

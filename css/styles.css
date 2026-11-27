@@ -1,0 +1,706 @@
+:root {
+  --maroon: #780000;
+  --red: #c1121f;
+  --cream: #fdf0d5;
+  --navy: #003049;
+  --steel: #669bbc;
+
+  --paper: color-mix(in srgb, var(--cream) 35%, #fff);
+  --gap: 1.1rem;
+
+  /* Completed animation: tweak these two to change how it fades away */
+  --fade-delay: 0.9s;
+  --fade-duration: 1.4s;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------- Base ---------- */
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--navy);
+  background-color: var(--cream);
+  background-image: radial-gradient(
+    rgba(0, 48, 73, 0.12) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  padding: 3.5rem 0 8.5rem;
+  overflow: hidden;
+  text-align: center;
+  color: var(--cream);
+  background: var(--navy);
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 340px;
+  height: 340px;
+  top: -170px;
+  left: -110px;
+  background: var(--steel);
+  opacity: 0.22;
+}
+
+.hero::after {
+  width: 220px;
+  height: 220px;
+  right: -70px;
+  bottom: 40px;
+  background: var(--maroon);
+  opacity: 0.75;
+}
+
+.hero-logo {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 1.25rem;
+  font-size: 1.9rem;
+  color: var(--cream);
+  background: var(--red);
+  border: 3px solid var(--cream);
+  border-radius: 22px;
+  box-shadow: 5px 5px 0 var(--maroon);
+  transform: rotate(-6deg);
+}
+
+.hero-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.8rem, 9vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 4px 4px 0 var(--red);
+}
+
+.hero-sub {
+  max-width: 30rem;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: rgba(253, 240, 213, 0.85);
+}
+
+.hero-wave {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+.hero-wave path {
+  fill: var(--cream);
+}
+
+/* ---------- Planner card ---------- */
+.page {
+  position: relative;
+  margin-top: -5rem;
+  padding-bottom: 4rem;
+}
+
+.planner {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.25rem 1.25rem 1.5rem;
+  background: var(--paper);
+  border: 3px solid var(--navy);
+  border-radius: 26px;
+  box-shadow: 10px 10px 0 var(--navy);
+}
+
+@media (min-width: 576px) {
+  .planner {
+    padding: 2.5rem 2rem 2rem;
+  }
+}
+
+/* Binder rivets along the top edge */
+.planner::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  right: 28px;
+  height: 24px;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle 3px at center,
+      var(--cream) 0 2.5px,
+      transparent 3px
+    ),
+    radial-gradient(circle 9px at center, var(--navy) 0 8.5px, transparent 9px);
+  background-size: 44px 24px;
+  background-repeat: repeat-x;
+}
+
+/* ---------- Inputs ---------- */
+.field {
+  position: relative;
+  flex: 1;
+}
+
+.field .form-control {
+  height: 56px;
+  padding-left: 3rem;
+  font-weight: 500;
+  color: var(--navy);
+  background: #fff;
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--steel);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.field .form-control::placeholder {
+  color: rgba(0, 48, 73, 0.55);
+}
+
+.field .form-control:focus {
+  color: var(--navy);
+  background: #fff;
+  border-color: var(--red);
+  box-shadow: 5px 5px 0 var(--red);
+  transform: translate(-1px, -1px);
+}
+
+.field-icon {
+  position: absolute;
+  top: 50%;
+  left: 1.15rem;
+  z-index: 2;
+  color: var(--steel);
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition:
+    color 0.2s,
+    transform 0.25s;
+}
+
+.field:focus-within .field-icon {
+  color: var(--red);
+  transform: translateY(-50%) rotate(-12deg) scale(1.15);
+}
+
+/* Search: dashed pill so it reads differently from the add input */
+.field-search .form-control {
+  height: 48px;
+  padding-left: 2.9rem;
+  border: 3px dashed var(--steel);
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.field-search .form-control:focus {
+  border-style: solid;
+  border-color: var(--navy);
+  box-shadow: 0 0 0 4px rgba(102, 155, 188, 0.4);
+  transform: none;
+}
+
+.field-search:focus-within .field-icon {
+  color: var(--navy);
+}
+
+/* ---------- Buttons ---------- */
+.btn-pop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 56px;
+  min-width: 56px;
+  padding: 0 1.4rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--red);
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--navy);
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    background-color 0.2s;
+}
+
+.btn-pop:hover {
+  background: var(--maroon);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--navy);
+}
+
+.btn-pop:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--navy);
+}
+
+.btn-pop:focus-visible,
+.btn-ghost:focus-visible,
+.btn-action:focus-visible {
+  outline: 3px solid var(--steel);
+  outline-offset: 3px;
+}
+
+#addBtn i {
+  transition: transform 0.3s;
+}
+
+#addBtn:hover i {
+  transform: rotate(90deg) scale(1.15);
+}
+
+.btn-ghost {
+  height: 56px;
+  padding: 0 1.4rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: transparent;
+  border: 3px solid var(--navy);
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.btn-ghost:hover {
+  color: var(--cream);
+  background: var(--navy);
+}
+
+.add-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.9rem;
+}
+
+/* Update button: same shape as Add, navy so the two modes read differently */
+.btn-update {
+  background: var(--navy);
+}
+
+.btn-update:hover {
+  color: var(--navy);
+  background: var(--steel);
+}
+
+#updateBtn i {
+  transition: transform 0.4s;
+}
+
+#updateBtn:hover i {
+  transform: rotate(180deg);
+}
+
+/* ---------- Validation message ---------- */
+.validation-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--maroon);
+  border: 3px solid var(--navy);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--red);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+.validation-msg i {
+  flex: none;
+  font-size: 1.1rem;
+}
+
+/* ---------- List heading + search ---------- */
+.list-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.1rem;
+  margin: 2.25rem 0 1.6rem;
+}
+
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.5rem 1.1rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cream);
+  background: var(--navy);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--red);
+  transform: rotate(-2.5deg);
+}
+
+.list-bar .field-search {
+  flex: 1 1 220px;
+  max-width: 300px;
+}
+
+@media (max-width: 575.98px) {
+  .list-bar .field-search {
+    flex-basis: 100%;
+    max-width: none;
+  }
+}
+
+/* ---------- To-do items ---------- */
+.todo-list {
+  margin: 0;
+  padding: 0;
+}
+
+.todo-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: var(--gap);
+  padding: 1rem 1rem 1rem 1.7rem;
+  overflow: hidden;
+  background: #fff;
+  border: 3px solid var(--navy);
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 var(--navy);
+  /* plays whenever a new item is added to the list */
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+/* Colored tab on the left, cycles through the palette */
+.todo-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 12px;
+  background: var(--red);
+}
+
+.todo-item:nth-child(4n + 2)::before {
+  background: var(--steel);
+}
+.todo-item:nth-child(4n + 3)::before {
+  background: var(--maroon);
+}
+.todo-item:nth-child(4n)::before {
+  background: var(--navy);
+}
+
+.todo-item:hover {
+  transform: translate(-2px, -3px) rotate(-0.4deg);
+  box-shadow: 7px 8px 0 var(--navy);
+}
+
+.todo-marker {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: var(--cream);
+  border: 3px solid var(--navy);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.todo-item:hover .todo-marker {
+  background: var(--steel);
+}
+
+.todo-marker i {
+  font-size: 0.75rem;
+  color: var(--cream);
+  transform: scale(0);
+}
+
+.todo-text {
+  flex: 0 1 auto;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 0 0;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  /* strike-through line, drawn in when completed */
+  background: linear-gradient(var(--red), var(--red)) no-repeat 0 55% / 0% 3px;
+}
+
+.todo-actions {
+  flex: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--navy);
+  background: var(--cream);
+  border: 2.5px solid var(--navy);
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 var(--navy);
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.btn-action:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--navy);
+}
+
+.btn-action:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--navy);
+}
+
+.btn-action i {
+  transition: transform 0.25s;
+}
+
+.btn-edit:hover {
+  background: var(--steel);
+}
+
+.btn-edit:hover i {
+  transform: rotate(-20deg) scale(1.15);
+}
+
+.btn-done:hover {
+  color: var(--cream);
+  background: var(--red);
+}
+
+.btn-done:hover i {
+  transform: scale(1.25) rotate(8deg);
+}
+
+@media (max-width: 575.98px) {
+  .todo-item {
+    gap: 0.75rem;
+    padding: 0.9rem 0.75rem 0.9rem 1.4rem;
+  }
+
+  .btn-action {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* ---------- Completed (add the class "completed" to .todo-item) ----------
+   1. the marker fills in with a tick
+   2. a line is drawn through the text
+   3. the whole item slides away, fades out and collapses
+   Listen for "animationend" (animationName === 'fadeAway') to remove it. */
+.todo-item.completed {
+  pointer-events: none;
+  animation: fadeAway var(--fade-duration) ease-in var(--fade-delay) forwards;
+}
+
+.todo-item.completed .todo-marker {
+  background: var(--red);
+  border-color: var(--red);
+  animation: markerPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.todo-item.completed .todo-marker i {
+  animation: tick 0.4s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.todo-item.completed .todo-text {
+  color: rgba(0, 48, 73, 0.55);
+  animation: strike 0.5s 0.15s ease-out forwards;
+}
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  padding: 1.5rem 1rem 0.5rem;
+  text-align: center;
+}
+
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: var(--red);
+  border: 3px dashed var(--steel);
+  border-radius: 50%;
+}
+
+.empty-state h3 {
+  margin-bottom: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 0;
+  color: rgba(0, 48, 73, 0.75);
+}
+
+/* ---------- Edit modal ---------- */
+.modal.fade .modal-dialog {
+  transform: scale(0.85) rotate(-3deg);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+}
+
+.modal-content {
+  overflow: hidden;
+  background: var(--paper);
+  border: 3px solid var(--navy);
+  border-radius: 22px;
+  box-shadow: 8px 8px 0 var(--navy);
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  color: var(--cream);
+  background: var(--navy);
+  border-bottom: 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.modal-body {
+  padding: 1.75rem 1.5rem 1rem;
+}
+
+.modal-footer {
+  gap: 0.75rem;
+  padding: 0.5rem 1.5rem 1.5rem;
+  border-top: 0;
+}
+
+.modal-footer > * {
+  margin: 0;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+}
+
+@keyframes markerPop {
+  50% {
+    transform: scale(1.4);
+  }
+}
+
+@keyframes tick {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes strike {
+  to {
+    background-size: 100% 3px;
+  }
+}
+
+@keyframes fadeAway {
+  0% {
+    opacity: 1;
+    transform: none;
+    max-height: 300px;
+  }
+  55% {
+    opacity: 0.45;
+    transform: translateX(24px) rotate(1.5deg);
+    max-height: 300px;
+    margin-bottom: var(--gap);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-width: 3px;
+  }
+  80% {
+    opacity: 0;
+    transform: translateX(80px) rotate(4deg) scale(0.96);
+    max-height: 300px;
+    margin-bottom: var(--gap);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-width: 3px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(80px) rotate(4deg) scale(0.96);
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+}
